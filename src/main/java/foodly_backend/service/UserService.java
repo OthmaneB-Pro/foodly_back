@@ -20,6 +20,9 @@ public class UserService {
     }
 
     public void createUser(UserEntity user) {
-        this.userRepository.save(user);
+        UserEntity usernameAlreadyInDb = this.userRepository.findByUsername(user.getUsername());
+        if (usernameAlreadyInDb != null) {
+            this.userRepository.save(user);
+        }
     }
 }
