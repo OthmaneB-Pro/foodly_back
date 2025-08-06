@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping
-public String getString(){
+    public String getString(){
         return "salt la zone";
     }
 }
