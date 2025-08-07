@@ -19,6 +19,10 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public UserEntity getUserById(int id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public void createUser(UserEntity user) {
         UserEntity usernameAlreadyInDb = this.userRepository.findByUsername(user.getUsername());
         if (usernameAlreadyInDb != null) {
