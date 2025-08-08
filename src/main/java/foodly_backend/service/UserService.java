@@ -2,21 +2,24 @@ package foodly_backend.service;
 
 import foodly_backend.entity.UserEntity;
 import foodly_backend.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public List<UserEntity> getUser() {
-        return this.userRepository.findAll();
+    public List<UserEntity> getUsers() {
+        return userRepository.findAll();
     }
 
     public UserEntity getUserById(int id) {
@@ -24,9 +27,17 @@ public class UserService {
     }
 
     public void createUser(UserEntity user) {
-        UserEntity usernameAlreadyInDb = this.userRepository.findByUsername(user.getUsername());
-        if (usernameAlreadyInDb != null) {
-            this.userRepository.save(user);
+        boolean exists = userRepository.findByUsername(user.getUsername()).isPresent();
+        if (!exists) { // on crée seulement si pas déjà en DB
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("Nom d'utilisateur déjà pris");
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
     }
 }

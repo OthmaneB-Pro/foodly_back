@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping
     public List<UserEntity> getUser() {
-        return this.userService.getUser();
+        return this.userService.getUsers();
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
