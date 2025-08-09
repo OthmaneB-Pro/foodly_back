@@ -17,3 +17,19 @@ CREATE TABLE MENU (
     USER_ID INTEGER,
     CONSTRAINT user_fk FOREIGN KEY (USER_ID) REFERENCES USERS(ID)
 );
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    status VARCHAR(50) DEFAULT 'PENDING',
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE order_items (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER NOT NULL,
+    menu_id INTEGER NOT NULL,
+    quantity INTEGER DEFAULT 1,
+    CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id),
+    CONSTRAINT fk_menu FOREIGN KEY (menu_id) REFERENCES menu(id)
+);
