@@ -69,4 +69,7 @@ public class MenuService {
         }
     }
 
+    public MenuEntity getMenuById(int id) {
+        return this.menuRepository.findById(id).orElse(null);
+    }
 }
