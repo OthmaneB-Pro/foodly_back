@@ -30,6 +30,9 @@ public class OrderEntity {
         this.items = items;
     }
 
+    public OrderEntity(UserEntity userById, String inCart) {
+    }
+
     public int getId() {
         return id;
     }
