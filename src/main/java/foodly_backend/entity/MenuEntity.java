@@ -16,7 +16,7 @@ public class MenuEntity {
     private boolean is_available;
     private boolean is_advertised;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
