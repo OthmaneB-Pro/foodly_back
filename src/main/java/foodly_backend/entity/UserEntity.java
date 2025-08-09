@@ -1,5 +1,6 @@
 package foodly_backend.entity;
 
+import foodly_backend.enums.Role;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,15 +22,19 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    private Role role;
+
     public UserEntity() {
+
     }
 
-    public UserEntity(String username, String password) {
+    public UserEntity(String username, String password, Role role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
-    // --- Getters / Setters ---
+
     public int getId() {
         return id;
     }
@@ -55,7 +60,14 @@ public class UserEntity implements UserDetails {
         return password;
     }
 
-    // --- Spring Security ---
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(); // On gérera les rôles plus tard
