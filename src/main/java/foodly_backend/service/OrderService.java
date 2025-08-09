@@ -2,10 +2,15 @@ package foodly_backend.service;
 
 import foodly_backend.dto.OrderDTO;
 import foodly_backend.dto.OrderItemDTO;
+import foodly_backend.dto.UpdateOrderItemRequest;
 import foodly_backend.entity.MenuEntity;
 import foodly_backend.entity.OrderEntity;
 import foodly_backend.entity.OrderItemEntity;
+import foodly_backend.repository.MenuRepository;
+import foodly_backend.repository.OrderItemRepository;
 import foodly_backend.repository.OrderRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +22,16 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final MenuService menuService;
+    private final MenuRepository menuRepository;
     private final UserService userService;
+    private final OrderItemRepository orderItemRepository;
 
-    public OrderService(OrderRepository orderRepository, MenuService menuService, UserService userService) {
+    public OrderService(OrderRepository orderRepository, MenuService menuService, MenuRepository menuRepository, UserService userService, OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.menuService = menuService;
+        this.menuRepository = menuRepository;
         this.userService = userService;
+        this.orderItemRepository = orderItemRepository;
     }
 
     public void addOrderMenu(int userId, int menuId, int quantity) {
@@ -64,5 +73,25 @@ public class OrderService {
 
             return new OrderDTO(order.getId(), order.getStatus(), items);
         }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteOrderItem(int itemId) {
+        OrderItemEntity item = orderItemRepository.findById(itemId)
+                .orElseThrow(() -> new EntityNotFoundException("OrderItem non trouvé"));
+        orderItemRepository.delete(item);
+    }
+
+    @Transactional
+    public void updateOrderItem(int itemId, UpdateOrderItemRequest request) {
+        OrderItemEntity item = orderItemRepository.findById(itemId)
+                .orElseThrow(() -> new EntityNotFoundException("OrderItem non trouvé"));
+
+        MenuEntity menu = item.getMenu();
+        menu.setTitle(request.getTitle());
+        menu.setImage_source(request.getImage_source());
+        menu.setPrice(request.getPrice());
+
+        menuRepository.save(menu);
     }
 }

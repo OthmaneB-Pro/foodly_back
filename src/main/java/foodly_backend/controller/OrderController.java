@@ -2,6 +2,7 @@ package foodly_backend.controller;
 
 import foodly_backend.dto.AddToCartRequest;
 import foodly_backend.dto.OrderDTO;
+import foodly_backend.dto.UpdateOrderItemRequest;
 import foodly_backend.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,18 @@ public class OrderController {
     @GetMapping
     public List<OrderDTO> getOrderList() {
         return this.orderService.getOrderList();
+    }
+
+    @DeleteMapping("/item/{itemId}")
+    public ResponseEntity<String> deleteOrderItem(@PathVariable int itemId) {
+        orderService.deleteOrderItem(itemId);
+        return ResponseEntity.ok("Item supprimé du panier.");
+    }
+
+    @PutMapping("/item/{itemId}")
+    public ResponseEntity<String> updateOrderItem(@PathVariable int itemId, @RequestBody UpdateOrderItemRequest request) {
+        orderService.updateOrderItem(itemId, request);
+        return ResponseEntity.ok("Menu lié à l'item mis à jour.");
     }
 
 }
