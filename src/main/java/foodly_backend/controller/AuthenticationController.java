@@ -3,6 +3,7 @@ package foodly_backend.controller;
 import foodly_backend.dto.AuthRequest;
 import foodly_backend.dto.AuthResponse;
 import foodly_backend.entity.UserEntity;
+import foodly_backend.enums.Role;
 import foodly_backend.repository.UserRepository;
 import foodly_backend.service.JwtService;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class AuthenticationController {
         UserEntity newUser = new UserEntity();
         newUser.setUsername(request.getUsername());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        newUser.setRole(request.getRole() != null ? request.getRole() : Role.ROLE_USER);
         userRepository.save(newUser);
 
         String token = jwtService.generateToken(newUser.getUsername());

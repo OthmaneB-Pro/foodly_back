@@ -21,7 +21,7 @@ public class UserEntity implements UserDetails {
 
     @Column(nullable = false)
     private String password;
-
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public UserEntity() {

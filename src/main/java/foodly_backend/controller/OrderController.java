@@ -6,6 +6,7 @@ import foodly_backend.dto.UpdateOrderItemRequest;
 import foodly_backend.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class OrderController {
         return ResponseEntity.ok("Item supprimé du panier.");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/item/{itemId}")
     public ResponseEntity<String> updateOrderItem(@PathVariable int itemId, @RequestBody UpdateOrderItemRequest request) {
         orderService.updateOrderItem(itemId, request);

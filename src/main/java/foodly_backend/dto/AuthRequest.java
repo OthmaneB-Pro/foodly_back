@@ -1,15 +1,19 @@
 package foodly_backend.dto;
 
+import foodly_backend.enums.Role;
+
 public class AuthRequest {
     private String username;
     private String password;
+    private Role role;
 
     public AuthRequest() {
     }
 
-    public AuthRequest(String username, String password) {
+    public AuthRequest(String username, String password, Role role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -26,5 +30,13 @@ public class AuthRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
