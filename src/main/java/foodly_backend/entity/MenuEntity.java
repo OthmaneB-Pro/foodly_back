@@ -1,5 +1,6 @@
 package foodly_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,12 +10,18 @@ public class MenuEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String image_source;
+    @JsonProperty("imageSource")
+    @Column(name = "image_source")
+    private String imageSource;
     private String title;
     private int price;
     private int quantity;
-    private boolean is_available;
-    private boolean is_advertised;
+    @JsonProperty("isAvailable")
+    @Column(name = "is_available")
+    private boolean isAvailable;
+    @JsonProperty("isAdvertised")
+    @Column(name = "is_advertised")
+    private boolean isAdvertised;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
@@ -23,14 +30,14 @@ public class MenuEntity {
     public MenuEntity() {
     }
 
-    public MenuEntity(int id, String image_source, String title, int price, int quantity, boolean is_available, boolean is_advertised, UserEntity user) {
+    public MenuEntity(int id, String imageSource, String title, int price, int quantity, boolean isAvailable, boolean isAdvertised, UserEntity user) {
         this.id = id;
-        this.image_source = image_source;
+        this.imageSource = imageSource;
         this.title = title;
         this.price = price;
         this.quantity = quantity;
-        this.is_available = is_available;
-        this.is_advertised = is_advertised;
+        this.isAvailable = isAvailable;
+        this.isAdvertised = isAdvertised;
         this.user = user;
     }
 
@@ -43,11 +50,11 @@ public class MenuEntity {
     }
 
     public String getImage_source() {
-        return image_source;
+        return imageSource;
     }
 
-    public void setImage_source(String image_source) {
-        this.image_source = image_source;
+    public void setImage_source(String imageSource) {
+        this.imageSource = imageSource;
     }
 
     public String getTitle() {
@@ -75,19 +82,19 @@ public class MenuEntity {
     }
 
     public boolean isIs_available() {
-        return is_available;
+        return isAvailable;
     }
 
-    public void setIs_available(boolean is_available) {
-        this.is_available = is_available;
+    public void setIs_available(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     public boolean isIs_advertised() {
-        return is_advertised;
+        return isAdvertised;
     }
 
-    public void setIs_advertised(boolean is_advertised) {
-        this.is_advertised = is_advertised;
+    public void setIs_advertised(boolean isAdvertised) {
+        this.isAdvertised = isAdvertised;
     }
 
     public UserEntity getUser() {

@@ -2,6 +2,7 @@ package foodly_backend.controller;
 
 import foodly_backend.entity.MenuEntity;
 import foodly_backend.service.MenuService;
+import foodly_backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,16 +14,16 @@ import java.util.List;
 @RequestMapping(path = "menu")
 public class MenuController {
 
-    private MenuService menuService;
+    private final MenuService menuService;
 
-    public MenuController(MenuService menuService) {
+    public MenuController(MenuService menuService, UserService userService) {
         this.menuService = menuService;
     }
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @GetMapping
     public List<MenuEntity> getListMenu() {
-        return this.menuService.getListMenu();
+        return menuService.getListMenu();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -32,7 +33,7 @@ public class MenuController {
         this.menuService.createMenu(menu);
     }
 
-    
+
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")

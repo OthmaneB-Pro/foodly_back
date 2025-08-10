@@ -2,7 +2,7 @@ package foodly_backend.dto;
 
 public class UpdateOrderItemRequest {
     private String title;
-    private String image_source;
+    private String imageSource;
     private int price;
 
     public String getTitle() {
@@ -14,11 +14,11 @@ public class UpdateOrderItemRequest {
     }
 
     public String getImage_source() {
-        return image_source;
+        return imageSource;
     }
 
-    public void setImage_source(String image_source) {
-        this.image_source = image_source;
+    public void setImage_source(String imageSource) {
+        this.imageSource = imageSource;
     }
 
     public int getPrice() {
