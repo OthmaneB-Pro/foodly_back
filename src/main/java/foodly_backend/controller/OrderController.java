@@ -3,6 +3,7 @@ package foodly_backend.controller;
 import foodly_backend.dto.AddToCartRequest;
 import foodly_backend.dto.OrderDTO;
 import foodly_backend.dto.UpdateOrderItemRequest;
+import foodly_backend.entity.OrderEntity;
 import foodly_backend.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,8 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
-    public ResponseEntity<String> addToCart(@RequestBody AddToCartRequest request) {
-        orderService.addOrderMenu(request.getUserId(), request.getMenuId(), request.getQuantity());
-        return ResponseEntity.ok("Produit ajouté au panier !");
+    public OrderEntity addToCart(@RequestBody AddToCartRequest request) {
+        return this.orderService.addOrderMenu(request.getUserId(), request.getMenuId(), request.getQuantity());
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)

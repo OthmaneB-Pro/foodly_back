@@ -1,5 +1,6 @@
 package foodly_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,9 +12,10 @@ public class OrderItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private OrderEntity order;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_id")
     private MenuEntity menu;
 

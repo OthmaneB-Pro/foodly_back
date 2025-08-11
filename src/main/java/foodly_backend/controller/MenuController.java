@@ -2,9 +2,9 @@ package foodly_backend.controller;
 
 import foodly_backend.entity.MenuEntity;
 import foodly_backend.service.MenuService;
+import foodly_backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,27 +13,24 @@ import java.util.List;
 @RequestMapping(path = "menu")
 public class MenuController {
 
-    private MenuService menuService;
+    private final MenuService menuService;
 
-    public MenuController(MenuService menuService) {
+    public MenuController(MenuService menuService, UserService userService) {
         this.menuService = menuService;
     }
 
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @GetMapping
     public List<MenuEntity> getListMenu() {
-        return this.menuService.getListMenu();
+        return menuService.getListMenu();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
     public void createMenu(@RequestBody MenuEntity menu) throws Exception {
         this.menuService.createMenu(menu);
     }
 
-    
-    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
     public void deleteMenu(@PathVariable int id) {
@@ -41,7 +38,6 @@ public class MenuController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "{id}")
     public ResponseEntity<?> updateMenu(@PathVariable int id, @RequestBody MenuEntity updatedMenu) {
         try {

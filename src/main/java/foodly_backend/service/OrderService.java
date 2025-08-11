@@ -34,7 +34,7 @@ public class OrderService {
         this.orderItemRepository = orderItemRepository;
     }
 
-    public void addOrderMenu(int userId, int menuId, int quantity) {
+    public OrderEntity addOrderMenu(int userId, int menuId, int quantity) {
         OrderEntity order = orderRepository.findByUserIdAndStatus(userId, "IN_CART")
                 .orElseGet(() -> {
                     OrderEntity newOrder = new OrderEntity();
@@ -60,7 +60,10 @@ public class OrderService {
         }
 
         orderRepository.save(order);
+
+        return order;
     }
+
 
     public List<OrderDTO> getOrderList() {
         List<OrderEntity> orders = orderRepository.findAll();
@@ -68,7 +71,7 @@ public class OrderService {
         return orders.stream().map(order -> {
             List<OrderItemDTO> items = order.getItems().stream().map(item -> {
                 MenuEntity menu = item.getMenu();
-                return new OrderItemDTO(menu.getTitle(), menu.getImage_source(), menu.getPrice(), item.getQuantity());
+                return new OrderItemDTO(item.getId(), menu.getId(), menu.getTitle(), menu.getImage_source(), menu.getPrice(), item.getQuantity());
             }).collect(Collectors.toList());
 
             return new OrderDTO(order.getId(), order.getStatus(), items);
