@@ -1,5 +1,6 @@
 package foodly_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class OrderEntity {
     private String status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<OrderItemEntity> items = new ArrayList<>();
 
     public OrderEntity() {

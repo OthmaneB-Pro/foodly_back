@@ -3,25 +3,25 @@ package foodly_backend.dto;
 import java.util.List;
 
 public class OrderDTO {
-    private int orderId;
+    private int id;
     private String status;
     private List<OrderItemDTO> items;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(int orderId, String status, List<OrderItemDTO> items) {
-        this.orderId = orderId;
+    public OrderDTO(int id, String status, List<OrderItemDTO> items) {
+        this.id = id;
         this.status = status;
         this.items = items;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getId() {
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStatus() {
