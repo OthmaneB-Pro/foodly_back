@@ -2,6 +2,7 @@ package foodly_backend.service;
 
 import foodly_backend.entity.UserEntity;
 import foodly_backend.repository.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,5 +40,15 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
+    }
+
+    public ResponseEntity<Integer> getUserIdByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> ResponseEntity.ok(user.getId()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    public UserEntity findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
     }
 }

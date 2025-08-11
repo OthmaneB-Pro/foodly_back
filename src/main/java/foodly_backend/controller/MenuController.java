@@ -26,15 +26,12 @@ public class MenuController {
         return menuService.getListMenu();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
     public void createMenu(@RequestBody MenuEntity menu) throws Exception {
         this.menuService.createMenu(menu);
     }
 
-
-    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
     public void deleteMenu(@PathVariable int id) {
