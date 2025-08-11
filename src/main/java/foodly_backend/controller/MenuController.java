@@ -5,7 +5,6 @@ import foodly_backend.service.MenuService;
 import foodly_backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +38,6 @@ public class MenuController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "{id}")
     public ResponseEntity<?> updateMenu(@PathVariable int id, @RequestBody MenuEntity updatedMenu) {
         try {
